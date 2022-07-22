@@ -42,13 +42,37 @@ class _HomePageState extends State<HomePage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: (CatelogModel.items != null && CatelogModel.items.isNotEmpty)
-            ? ListView.builder(
-                itemCount: CatelogModel.items.length,
+            ? GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
                 itemBuilder: (context, index) {
-                  return ItemWidget(
-                    item: CatelogModel.items[index],
+                  final item = CatelogModel.items[index];
+                  return Card(
+                    clipBehavior: Clip.antiAlias,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    child: GridTile(
+                      header: Container(
+                        child: Text(
+                          item.name,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        color: Colors.deepPurple,
+                        padding: EdgeInsets.all(8),
+                      ),
+                      child: Image.network(item.imageUrl),
+                      footer: Container(
+                        child: Text(
+                          item.price.toString(),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        color: Colors.black,
+                        padding: EdgeInsets.all(8),
+                      ),
+                    ),
                   );
                 },
+                itemCount: CatelogModel.items.length,
               )
             : Center(
                 child: CircularProgressIndicator(),
